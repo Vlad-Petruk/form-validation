@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
     <title>Form validaion</title>
 </head>
 <body>
-   <form>
+   <form class="form">
     <h1>Form Validation</h1>
 
     <label for="email">Enter email:</label>
     <input type="email" id="email" name="email">
 
-    <label for="zip-code">Enter zip-code:</label>
-    <select id="zip-code" name="zip-code">
+    <label for="country">Choose country:</label>
+    <select id="country" name="country">
         <option>Ukraine</option>
         <option>Poland</option>
         <option>UK</option>
@@ -24,10 +26,15 @@
     <input type="number" id="zip-code" name="zip-code">
 
     <label for="password">Enter password:</label>
-    <input type="number" id="password" name="password">
+    <input type="password" id="password" name="password">
 
     <label for="confirm-password">Confirm password:</label>
-    <input type="number" id="confirm-password" name="confirm-password">
+    <input type="password" id="confirm-password" name="confirm-password">
+
+    <div class="buttons">
+        <button type="button" class="submit">Submit</button>
+        <button type="button" class="reset">Reset</button>
+    </div>
    </form>
 </body>
 </html>
