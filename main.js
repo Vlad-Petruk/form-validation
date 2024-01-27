@@ -12,6 +12,8 @@ const passwordError = document.querySelector("#password + span.error");
 const confirmPassword = document.getElementById('confirm-password');
 const confirmPasswordError = document.querySelector("#confirm-password + span.error");
 
+// Need to rewrite with separate eventListeners not functions
+
 const validationState = {
     email: false,
     // country: false,
@@ -67,9 +69,13 @@ function validatePassword() {
 };
 
 function validateConfirmPassword() {
-  if (confirmPassword.value !== validationState.password){
-    confirmPasswordError.textContent = 'Passwords do not match!'
+  if (confirmPassword.validity.valueMissing) {
+
+    confirmPasswordError.textContent = "You need to confirm password";
   }
+  // if (confirmPassword.value !== validationState.password){
+  //   confirmPasswordError.textContent = 'Passwords do not match!'
+  // }
 };
 
 function updatevalidatedFild (fieldType, objectProp) {
@@ -92,8 +98,9 @@ function addValidatigListener(field, fieldError,objectProp){
         validateEmail()
       } else if (field === password){
         validatePassword()
-      }
-      
+      } else if (field === confirmPassword){
+        validateConfirmPassword()
+      }      
     }
   });
 }
@@ -104,12 +111,3 @@ addValidatigListener(confirmPassword,confirmPasswordError, 'passwordConfirmation
 
 
 
-form.addEventListener("submit", (event) => {
-  // if the email field is valid, we let the form submit
-  if (!email.validity.valid) {
-    // If it isn't, we display an appropriate error message
-    showError();
-    // Then we prevent the form from being sent by canceling the event
-    event.preventDefault();
-  }
-});
