@@ -29,18 +29,13 @@ label {
 
 input,
 select {
-    margin-bottom: 10px;
-
-    width: 200px;
-    height: 25px;
-}
-
-input[type="email"] {
+  height: 25px;
   appearance: none;
 
   width: 200px;
   border: 1px solid #333;
   margin: 0;
+  padding: 3px;
 
   font-family: inherit;
   font-size: 90%;
@@ -73,4 +68,8 @@ input:focus:invalid {
 
 .error.active {
   padding: 0.3em;
+}
+
+.buttons{
+  margin-top: 10px;
 }

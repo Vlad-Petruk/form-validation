@@ -9,12 +9,12 @@ const zipCodeError = document.querySelector("#zip-code + span.error");
 const password = document.getElementById('password');
 const passwordError = document.querySelector("#password + span.error");
 
-const confirmPassword = document.getElementById('confrm-password');
-const confirmPasswordError = document.querySelector("#confrm-password + span.error");
+const confirmPassword = document.getElementById('confirm-password');
+const confirmPasswordError = document.querySelector("#confirm-password + span.error");
 
 const validationState = {
     email: false,
-    country: false,
+    // country: false,
     zipCode: false,
     password: false,
     passwordConfirmation: false,
@@ -38,7 +38,7 @@ function validateEmail() {
   // }
 
   // Set the styling appropriately
-  emailError.className = "error active";
+  // emailError.className = "error active";
 };
 
 function validateZipCode(zipCode) {
@@ -46,16 +46,30 @@ function validateZipCode(zipCode) {
 };
 
 function validatePassword() {
+  const isValidPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z@$!%*?&]*$/.test(password.value);
+
+   
+
   if (password.validity.valueMissing) {
 
-    passwordError.textContent = "You need to enter an email address.";
+    passwordError.textContent = "You need to enter password";
   } else if (password.validity.tooShort) {
-    passwordError.textContent = `Email should be at least ${password.minLength} characters; you entered ${password.value.length}.`;
-  }
+    passwordError.textContent = `Password should be at least ${password.minLength} characters; you entered ${password.value.length}.`;
+  } 
+  // if (isValidPattern) {
+  //   password.classList.remove('error-active');
+  //   passwordError.textContent = '';
+  // } else {
+  //   password.classList.add('error-active');
+  //   passwordError.textContent = 'Password must contain at least one lowercase letter and one uppercase letter.';
+  // }
+  
 };
 
-function validateConfirmPassword(confirmPasswordd) {
-
+function validateConfirmPassword() {
+  if (confirmPassword.value !== validationState.password){
+    confirmPasswordError.textContent = 'Passwords do not match!'
+  }
 };
 
 function updatevalidatedFild (fieldType, objectProp) {
@@ -74,27 +88,21 @@ function addValidatigListener(field, fieldError,objectProp){
       fieldError.className = "error";
       updatevalidatedFild(field,objectProp);
     } else {
-      showError();
+      if (field === email){
+        validateEmail()
+      } else if (field === password){
+        validatePassword()
+      }
+      
     }
   });
 }
-addValidatigListener(email, emailError,'email')
-// email.addEventListener("input", (event) => {
-
-//   if (email.validity.valid) {
-//     emailError.textContent = ""; // Reset the content of the message
-//     emailError.className = "error";
-//     updatevalidatedFild(email,'email');
-//   } else {
-//     showError();
-//   }
-// });
+addValidatigListener(email, emailError,'email');
+addValidatigListener(password,passwordError,'password');
+addValidatigListener(confirmPassword,confirmPasswordError, 'passwordConfirmation')
 
 
 
-function showError() {
-  validateEmail();
-}
 
 form.addEventListener("submit", (event) => {
   // if the email field is valid, we let the form submit
