@@ -45,8 +45,7 @@ email.addEventListener('input',()=>{
 email.addEventListener('blur', ()=>{
   if (email.validity.valid) {
     resetErrorField(emailError)
-    let isValid = email.value
-    updateValidationState(`email`, isValid);
+    updateValidationState(`email`, email.value);
     console.log(validationState)
     } else {
     updateValidationState(`email`, false);
@@ -117,14 +116,35 @@ function validatePassword() {
 
 //Password confirmation vaidation
 
+confirmPassword.addEventListener('input',()=>{
+  if (confirmPassword.validity.valid&&confirmPassword.value === validationState.password) {
+    resetErrorField(confirmPasswordError)
+  } else {
+      validateConfirmPassword();
+  }
+})
+
+confirmPassword.addEventListener('blur', ()=>{
+  if (confirmPassword.validity.valid&&confirmPassword.value === validationState.password) {
+    resetErrorField(confirmPasswordError)
+    confirmPassword.classList.remove('invalid');
+    updateValidationState(`passwordConfirmation`, confirmPassword.value);
+    console.log(validationState)
+    } else {
+    updateValidationState(`passwordConfirmation`, false);
+    console.log(validationState)
+  }
+})
+
 function validateConfirmPassword() {
   if (confirmPassword.validity.valueMissing) {
 
     confirmPasswordError.textContent = "You need to confirm password";
   }
-  // if (confirmPassword.value !== validationState.password){
-  //   confirmPasswordError.textContent = 'Passwords do not match!'
-  // }
+  if (confirmPassword.value !== validationState.password){
+    confirmPassword.classList.add('invalid');
+    confirmPasswordError.textContent = 'Passwords do not match!'
+  }
 };
 
 
