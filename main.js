@@ -3,6 +3,8 @@ const form = document.querySelector('.form');
 const email = document.getElementById("mail");
 const emailError = document.querySelector("#mail + span.error");
 
+const countrySelect = document.getElementById('country');
+
 const zipCode = document.getElementById('zip-code');
 const zipCodeError = document.querySelector("#zip-code + span.error");
 
@@ -16,7 +18,7 @@ const confirmPasswordError = document.querySelector("#confirm-password + span.er
 
 const validationState = {
     email: false,
-    // country: false,
+    country: 'Ukraine',
     zipCode: false,
     password: false,
     passwordConfirmation: false,
@@ -66,12 +68,110 @@ function validateEmail() {
   emailError.className = "error active";
 };
 
+//Country validation
+
+const ukraineZipPattern = /^\d{5}$/;
+const polandZipPattern = /^\d{2}-\d{3}$/;
+const ukZipPattern = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/;
+const surinamZipPattern = /^\d{4}$/;
+countrySelect.addEventListener('change', () => {
+  updateValidationState('country', countrySelect.value);
+
+  updateZipCodeValidation();
+});
+
+zipCode.addEventListener('input', updateZipCodeValidation);
+zipCode.addEventListener('blur', updateZipCodeValidation);
+
+updateZipCodeValidation();
+
+function updateZipCodeValidation() {
+  // Determine the zip code pattern based on the selected country
+  const zipPattern = getZipPattern();
+
+  if (zipPattern.test(zipCode.value)) {
+      zipCodeError.textContent = '';
+      zipCode.classList.remove('invalid');
+      updateValidationState('zipCode', zipCode.value);
+      console.log(validationState);
+  } else {
+      zipCode.classList.add('invalid');
+      zipCodeError.textContent = 'Invalid zip code for the selected country';
+      updateValidationState('zipCode', false);
+      console.log(validationState);
+  }
+}
+
+// Function to get the zip code pattern based on the selected country
+function getZipPattern() {
+  switch (validationState.country) {
+      case 'Ukraine':
+          return ukraineZipPattern;
+      case 'Poland':
+          return polandZipPattern;
+      case 'UK':
+          return ukZipPattern;
+      case 'Surinam':
+          return surinamZipPattern;
+      default:
+          return /^\d+$/; // Default pattern for other countries (any digits)
+  }
+}
+
 
 //Zip-code validation
 
-function validateZipCode(zipCode) {
+// const ukraineZipPattern = /^\d{5}$/;
+// const polandZipPattern = /^\d{2}-\d{3}$/;
+// const ukZipPattern = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/;
+// const surinamZipPattern = /^\d{4}$/;
 
-};
+
+// const selectedCountry = validationState.country;
+// console.log(selectedCountry)
+// let zipPattern;
+// switch (selectedCountry) {
+//   case 'Ukraine':
+//     zipPattern = ukraineZipPattern;
+//     break;
+//   case 'Poland':
+//     zipPattern = polandZipPattern;
+//     break;
+//   case 'UK':
+//     zipPattern = ukZipPattern;
+//     break;
+//   case 'Surinam':
+//     zipPattern = surinamZipPattern;
+//     break;
+//   default:
+//     zipPattern = /^\d+$/; // Default pattern for other countries (any digits)
+//     break;
+// }
+
+// zipCode.addEventListener('input', validateZipCode);
+// zipCode.addEventListener('blur',()=>{
+//   if (zipPattern.test(zipCode.value)) {
+//   validateZipCode();
+  
+//   updateValidationState('zipCode', zipCode.value)
+//   console.log(validationState)
+//   } else {
+//     updateValidationState(`zipCode`, false);
+//     console.log(validationState)
+//   }
+// })
+
+// function validateZipCode() {
+//   // Validate the zip code against the pattern
+//   if (zipPattern.test(zipCode.value)) {
+//     zipCodeError.textContent = ''; 
+//     zipCode.classList.remove('invalid')
+//   } else {
+//     zipCode.classList.add('invalid')
+//     zipCodeError.textContent = 'Invalid zip code for the selected country';
+//   }
+// }
+
 
 
 //Password validation
