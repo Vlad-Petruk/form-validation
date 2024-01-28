@@ -12,7 +12,7 @@ const passwordError = document.querySelector("#password + span.error");
 const confirmPassword = document.getElementById('confirm-password');
 const confirmPasswordError = document.querySelector("#confirm-password + span.error");
 
-// Need to rewrite with separate eventListeners not functions
+// Main functions section
 
 const validationState = {
     email: false,
@@ -24,7 +24,35 @@ const validationState = {
 
 function updateValidationState(field, isValid) {
     validationState[field] = isValid;
+}
+
+function resetErrorField(errorfield){
+  errorfield.textContent = ""; 
+    errorfield.className = "error";
+}
+
+
+//Email validation
+
+email.addEventListener('input',()=>{
+  if (email.validity.valid) {
+    resetErrorField(emailError)
+  } else {
+      validateEmail();
   }
+})
+
+email.addEventListener('blur', ()=>{
+  if (email.validity.valid) {
+    resetErrorField(emailError)
+    let isValid = email.value
+    updateValidationState(`email`, isValid);
+    console.log(validationState)
+    } else {
+    updateValidationState(`email`, false);
+    console.log(validationState)
+  }
+})
 
 function validateEmail() {
   if (email.validity.valueMissing) {
@@ -35,17 +63,18 @@ function validateEmail() {
   } else if (email.validity.tooShort) {
     emailError.textContent = `Email should be at least ${email.minLength} characters; you entered ${email.value.length}.`;
   } 
-  // else if (email.validity.patternMismatch){
-  //   emailError.textContent = `Email should be at least characters; you entered ${email.value.length}.`;
-  // }
-
   // Set the styling appropriately
-  // emailError.className = "error active";
+  emailError.className = "error active";
 };
+
+//Zip-code validation
 
 function validateZipCode(zipCode) {
 
 };
+
+
+//Password validation
 
 function validatePassword() {
   const isValidPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z@$!%*?&]*$/.test(password.value);
@@ -68,6 +97,9 @@ function validatePassword() {
   
 };
 
+
+//Password confirmation vaidation
+
 function validateConfirmPassword() {
   if (confirmPassword.validity.valueMissing) {
 
@@ -78,35 +110,7 @@ function validateConfirmPassword() {
   // }
 };
 
-function updatevalidatedFild (fieldType, objectProp) {
-  fieldType.addEventListener('blur', ()=>{
-    let isValid = fieldType.value
-    updateValidationState(`${objectProp}`, isValid);
-    console.log(validationState)
-  })
-}
 
-function addValidatigListener(field, fieldError,objectProp){
-  field.addEventListener("input", (event) => {
-
-    if (field.validity.valid) {
-      fieldError.textContent = ""; // Reset the content of the message
-      fieldError.className = "error";
-      updatevalidatedFild(field,objectProp);
-    } else {
-      if (field === email){
-        validateEmail()
-      } else if (field === password){
-        validatePassword()
-      } else if (field === confirmPassword){
-        validateConfirmPassword()
-      }      
-    }
-  });
-}
-addValidatigListener(email, emailError,'email');
-addValidatigListener(password,passwordError,'password');
-addValidatigListener(confirmPassword,confirmPasswordError, 'passwordConfirmation')
 
 
 
