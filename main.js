@@ -68,7 +68,7 @@ function validateEmail() {
   emailError.className = "error active";
 };
 
-//Country validation
+//Country and zip-code validation
 
 const ukraineZipPattern = /^\d{5}$/;
 const polandZipPattern = /^\d{2}-\d{3}$/;
@@ -96,9 +96,32 @@ function updateZipCodeValidation() {
       console.log(validationState);
   } else {
       zipCode.classList.add('invalid');
-      zipCodeError.textContent = 'Invalid zip code for the selected country';
-      updateValidationState('zipCode', false);
-      console.log(validationState);
+      switch (validationState.country) {
+        case 'Ukraine':
+          zipCodeError.textContent = 'Invalid zip code for the selected country. Correct example: 12312';
+          updateValidationState('zipCode', false);
+          console.log(validationState);
+          break;
+        case 'Poland':
+          zipCodeError.textContent = 'Invalid zip code for the selected country. Correct example: 12-312';
+          updateValidationState('zipCode', false);
+          console.log(validationState);
+          break;
+        case 'UK':
+          zipCodeError.textContent = 'Invalid zip code for the selected country. Correct example: AB12 3CD';
+          updateValidationState('zipCode', false);
+          console.log(validationState);
+          break;
+        case 'Surinam':
+          zipCodeError.textContent = 'Invalid zip code for the selected country. Correct example: 2323';
+          updateValidationState('zipCode', false);
+          console.log(validationState);
+          break;
+        default:
+            
+  //     zipCodeError.textContent = 'Invalid zip code for the selected country';
+  //     updateValidationState('zipCode', false);
+  //     console.log(validationState);
   }
 }
 
@@ -117,60 +140,6 @@ function getZipPattern() {
           return /^\d+$/; // Default pattern for other countries (any digits)
   }
 }
-
-
-//Zip-code validation
-
-// const ukraineZipPattern = /^\d{5}$/;
-// const polandZipPattern = /^\d{2}-\d{3}$/;
-// const ukZipPattern = /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/;
-// const surinamZipPattern = /^\d{4}$/;
-
-
-// const selectedCountry = validationState.country;
-// console.log(selectedCountry)
-// let zipPattern;
-// switch (selectedCountry) {
-//   case 'Ukraine':
-//     zipPattern = ukraineZipPattern;
-//     break;
-//   case 'Poland':
-//     zipPattern = polandZipPattern;
-//     break;
-//   case 'UK':
-//     zipPattern = ukZipPattern;
-//     break;
-//   case 'Surinam':
-//     zipPattern = surinamZipPattern;
-//     break;
-//   default:
-//     zipPattern = /^\d+$/; // Default pattern for other countries (any digits)
-//     break;
-// }
-
-// zipCode.addEventListener('input', validateZipCode);
-// zipCode.addEventListener('blur',()=>{
-//   if (zipPattern.test(zipCode.value)) {
-//   validateZipCode();
-  
-//   updateValidationState('zipCode', zipCode.value)
-//   console.log(validationState)
-//   } else {
-//     updateValidationState(`zipCode`, false);
-//     console.log(validationState)
-//   }
-// })
-
-// function validateZipCode() {
-//   // Validate the zip code against the pattern
-//   if (zipPattern.test(zipCode.value)) {
-//     zipCodeError.textContent = ''; 
-//     zipCode.classList.remove('invalid')
-//   } else {
-//     zipCode.classList.add('invalid')
-//     zipCodeError.textContent = 'Invalid zip code for the selected country';
-//   }
-// }
 
 
 
@@ -247,8 +216,4 @@ function validateConfirmPassword() {
   }
 };
 
-
-
-
-
-
+}
