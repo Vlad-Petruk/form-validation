@@ -14,6 +14,9 @@ const passwordError = document.querySelector("#password + span.error");
 const confirmPassword = document.getElementById('confirm-password');
 const confirmPasswordError = document.querySelector("#confirm-password + span.error");
 
+const submitBtn = document.querySelector('.submit');
+const resetBtn = document.querySelector('.reset');
+
 // Main functions section
 
 const validationState = {
@@ -33,7 +36,24 @@ function resetErrorField(errorfield){
     errorfield.className = "error";
 }
 
+submitBtn.addEventListener('click',()=>{
+  if(validationState.email !== false&&validationState.zipCode !== false&&validationState.password !== false&&validationState.passwordConfirmation !== false) {
+    alert('Congrats!')
+  } else alert('You need to fill all field properly!')
+})
 
+resetBtn.addEventListener('click',()=>{
+  email.value = '';
+  zipCode.value = '';
+  password.value = '';
+  confirmPassword.value = '';
+  validationState.email = false;
+  validationState.country = 'Ukraine';
+  validationState.zipCode = false;
+  validationState.password = false;
+  validationState.passwordConfirmation = false;
+
+})
 //Email validation
 
 email.addEventListener('input',()=>{
