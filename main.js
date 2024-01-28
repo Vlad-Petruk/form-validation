@@ -39,7 +39,7 @@ function resetErrorField(errorfield){
 submitBtn.addEventListener('click',()=>{
   if(validationState.email !== false&&validationState.zipCode !== false&&validationState.password !== false&&validationState.passwordConfirmation !== false) {
     alert('Congrats!')
-  } else alert('You need to fill all field properly!')
+  } else alert('You need to fill all fields properly!')
 })
 
 resetBtn.addEventListener('click',()=>{
