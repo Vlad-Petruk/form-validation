@@ -67,6 +67,7 @@ function validateEmail() {
   emailError.className = "error active";
 };
 
+
 //Zip-code validation
 
 function validateZipCode(zipCode) {
@@ -76,24 +77,40 @@ function validateZipCode(zipCode) {
 
 //Password validation
 
+function isPasswordValid(password) {
+  const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+  return passwordPattern.test(password);
+}
+password.addEventListener('input',()=>{
+  if (password.validity.valid&&isPasswordValid(password.value)) {
+    resetErrorField(passwordError)
+  } else {
+      validatePassword();
+  }
+})
+
+password.addEventListener('blur', ()=>{
+  if (password.validity.valid&&isPasswordValid(password.value)) {
+    resetErrorField(passwordError)
+    password.classList.remove('invalid');
+    updateValidationState(`password`, password.value);
+    console.log(validationState)
+    } else {
+    updateValidationState(`password`, false);
+    console.log(validationState)
+  }
+})
+
 function validatePassword() {
-  const isValidPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z@$!%*?&]*$/.test(password.value);
-
-   
-
   if (password.validity.valueMissing) {
 
     passwordError.textContent = "You need to enter password";
   } else if (password.validity.tooShort) {
     passwordError.textContent = `Password should be at least ${password.minLength} characters; you entered ${password.value.length}.`;
-  } 
-  // if (isValidPattern) {
-  //   password.classList.remove('error-active');
-  //   passwordError.textContent = '';
-  // } else {
-  //   password.classList.add('error-active');
-  //   passwordError.textContent = 'Password must contain at least one lowercase letter and one uppercase letter.';
-  // }
+  } else if (!isPasswordValid(password.value)) {
+    password.classList.add('invalid');
+    passwordError.textContent = 'Password must contain at least one lowercase letter, one digit and one uppercase letter.';
+  }
   
 };
 

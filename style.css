@@ -44,7 +44,8 @@ select {
 }
 
 /* This is our style for the invalid fields */
-input:invalid {
+input:invalid,
+.invalid {
   border-color: #900;
   background-color: #fdd;
 }
